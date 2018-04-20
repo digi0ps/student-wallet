@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import logo from '../css/logo.svg';
 import '../css/App.css';
 
+const done = {
+  textDecoration: "line-through"
+}
+
 class App extends Component {
   render() {
     return (
@@ -16,11 +20,11 @@ class App extends Component {
         </p>
         <p>TODO:</p>
         <ul>
-          <li>Firebase integration</li>
-          <li>Reading and writing to database</li>
-          <li>Input fields</li>
-          <li>Displaying data</li>
-          <li>Better UI</li>
+          <li style={done}>Firebase integration</li>
+          <li>Welcome page, which collects user data</li>
+          <li>User authentication using Phone</li>
+          <li>Home page with Transaction history</li>
+          <li>Add new transaction</li>
         </ul>
       </div>
     );
