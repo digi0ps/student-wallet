@@ -29,11 +29,23 @@ export const fetchUser = (phone, callback) => {
         callback(user)
     })   
 }
+window.db = Database
+export const fetchTransaction = (phone, callback) => {
+    Database.ref("/transactions").orderByChild("user").equalTo(parseInt(phone)).on("value", (snapshot) => {
+        // trans does not exist
+        const trans = snapshot.val()
+        console.log(trans)
+        if(trans==null){
+            return null
+        }
+        callback(trans)
+    })  
+}
 
 export const registerUser = (user, accounts, callback) => {
 
     // Query for users with the same number
-    Database.ref("/users").orderByChild("phone").equalTo(user.phone).once("value", (snapshot) => {
+    Database.ref("/users").orderByChild("phone").equalTo(user.phone).on("value", (snapshot) => {
 
         // Only add a new user if the previous user doesn't exist
         if(snapshot.val()==null){
