@@ -6,6 +6,7 @@ import Home from './components/Home'
 import Welcome from './components/Welcome'
 import Register from './components/Register'
 import Verify from './components/Verify'
+import New from './components/createTrans'
 
 class Router extends React.Component {
     render() {
@@ -16,8 +17,9 @@ class Router extends React.Component {
                     <Route path="/" exact component={App} />
                     <Route path="/home" component={Home} />
                     <Route path="/welcome" component={Welcome} />
-                    <Route path="/new" component={Register} />
+                    <Route path="/register" component={Register} />
                     <Route path="/verify" component={Verify} />
+                    <Route path="/new" component={New} />
                 </Switch>
                 </div>
             </BrowserRouter>

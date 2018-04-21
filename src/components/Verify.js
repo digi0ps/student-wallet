@@ -11,7 +11,7 @@ class Verify extends React.Component {
 
     customAuth = (authResult, redirectUrl) => {
         const phone = authResult.user.phoneNumber.substr(3)
-        checkUserExists(phone, this.goTo("/home"), this.goTo("/new"))
+        checkUserExists(phone, this.goTo("/home"), this.goTo("/register"))
         return false
     }
 

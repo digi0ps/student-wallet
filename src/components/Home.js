@@ -17,6 +17,7 @@ class Home extends React.Component {
         firebase.auth().onAuthStateChanged((user) => {
           if (user) {
             const phone = user.phoneNumber.substr(3)
+            localStorage.setItem("student_wallet_phone", phone)
             this.initStates(phone)
           }
           else

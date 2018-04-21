@@ -32,11 +32,13 @@ class Register extends React.Component {
             phone,
         }
         const account = {
-            cash,
+            cash: {
+                balance: cash
+            }
         }
         account[bank_name] = {
             bank_no,
-            bank_bal,
+            balance: bank_bal,
         }
 
         registerUser(user, account, (success) => {

@@ -30,8 +30,9 @@ export const fetchUser = (phone, callback) => {
     })   
 }
 window.db = Database
+
 export const fetchTransaction = (phone, callback) => {
-    Database.ref("/transactions").orderByChild("user").equalTo(parseInt(phone)).on("value", (snapshot) => {
+    Database.ref("/transactions").orderByChild("user").equalTo(parseInt(phone, 10)).on("value", (snapshot) => {
         // trans does not exist
         const trans = snapshot.val()
         console.log(trans)
@@ -40,6 +41,15 @@ export const fetchTransaction = (phone, callback) => {
         }
         callback(trans)
     })  
+}
+
+export const createTransaction = (transaction, fnSuccess) => {
+    console.log(transaction)
+    const newUserRef = Database.ref("/transactions").push()
+    newUserRef.set({
+        ...transaction,
+    })
+    fnSuccess()
 }
 
 export const registerUser = (user, accounts, callback) => {
