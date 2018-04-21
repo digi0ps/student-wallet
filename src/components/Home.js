@@ -1,30 +1,34 @@
 import React from 'react'
-import Database from '../firebase/Database'
+import * as db from '../firebase/Database'
+
+import firebase from '../firebase'
 
 class Home extends React.Component {
     state = {
         count: "Loading",
-        users: []
+        users: [],
+        phone: null,
+        currentUser: null,
     }
 
-    componentDidMount = () => {
-        Database.ref("/usercount").on('value', (snapshot) => {
-            const count = snapshot.val()
-            this.setState({
-                count,
-            })
-        })
-
-        Database.ref("/users").once("value", (snapshot) => {
-            const users = snapshot.val()
-            console.log(users)
-        })
+    componentDidMount = async () => {
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            const phone = user.phoneNumber.substr(3)
+            db.fetchUser(phone, (currentUser) => this.setState({
+                currentUser,
+                phone,
+            }))
+          } else {
+            this.props.history.push('/verify')
+          }
+        });
     }
 
     render() {
         return (
             <div>
-                Number of Users: {this.state.count}
+                Welcome to student wallet, {this.state.currentUser && this.state.currentUser.name||"loading"}
             </div>
         )
     }

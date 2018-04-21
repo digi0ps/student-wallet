@@ -1,11 +1,36 @@
-import * as firebase from 'firebase'
-import config from './config'
-
-firebase.initializeApp(config);
+import firebase from './'
+import {login} from './auth_ui'
 
 const Database = firebase.database()
+window.db = Database
 
-export const registerUser = async (user, accounts, callback) => {
+export const checkUserExists = (phone, fnSuccess, fnFailure) => {
+    // Query for users with the same number
+    Database.ref("/users").orderByChild("phone").equalTo(phone).once("value", (snapshot) => {
+        // User does not exist
+        if(snapshot.val()==null){
+            fnFailure()
+            return
+        }
+        // User does exist
+        login()
+        fnSuccess()
+    })  
+}
+
+export const fetchUser = (phone, callback) => {
+    Database.ref("/users").orderByChild("phone").equalTo(phone).on("child_added", (data) => {
+        // User does not exist
+        const user = data.val()
+        console.log(user)
+        if(user==null){
+            return null
+        }
+        callback(user)
+    })   
+}
+
+export const registerUser = (user, accounts, callback) => {
 
     // Query for users with the same number
     Database.ref("/users").orderByChild("phone").equalTo(user.phone).once("value", (snapshot) => {
@@ -18,6 +43,7 @@ export const registerUser = async (user, accounts, callback) => {
                 accounts,
             })
             // User creation successfull
+            login()
             callback(true)
             return
         }

@@ -1,22 +1,24 @@
 import React from 'react'
+import {checkUserExists} from '../firebase/Database'
+import {initFirebaseUI} from '../firebase/auth_ui'
 
 class Verify extends React.Component {
-    state = {
-        phone: "",
+    componentDidMount() {
+        initFirebaseUI(this.customAuth)
     }
+    
+    goTo = (url) => () => this.props.history.push(url)
 
-    handleChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value,
-        })
+    customAuth = (authResult, redirectUrl) => {
+        const phone = authResult.user.phoneNumber.substr(3)
+        checkUserExists(phone, this.goTo("/home"), this.goTo("/new"))
+        return false
     }
 
     render() {
         return (
             <div>
-                <div>
-                    <label>Phone: </label>
-                    <input type="text" name="name" value={this.state.phone} onChange={this.handleChange} />
+                <div id="firebaseui-auth-container">
                 </div>
             </div>
         )

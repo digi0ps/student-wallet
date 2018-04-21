@@ -2136,6 +2136,10 @@ detect-port-alt@1.1.6:
     address "^1.0.1"
     debug "^2.6.0"
 
+dialog-polyfill@^0.4.7:
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/dialog-polyfill/-/dialog-polyfill-0.4.9.tgz#c690b3727c3d82e0f947bd5b910b32af8a2ef57d"
+
 diff@^3.2.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
@@ -2907,7 +2911,7 @@ find-up@^2.0.0, find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
-firebase@^4.13.0:
+firebase@^4.13.0, firebase@^4.8.0:
   version "4.13.0"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-4.13.0.tgz#bd62685bb7354972ef45d6465216687caa4cee88"
   dependencies:
@@ -2921,6 +2925,13 @@ firebase@^4.13.0:
     "@firebase/storage" "0.1.9"
     dom-storage "2.1.0"
     xmlhttprequest "1.8.0"
+
+firebaseui@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/firebaseui/-/firebaseui-2.7.0.tgz#1797cd688f7148b72ca7fb24d0129ca18922b56d"
+  dependencies:
+    dialog-polyfill "^0.4.7"
+    firebase "^4.8.0"
 
 flat-cache@^1.2.1:
   version "1.3.0"
