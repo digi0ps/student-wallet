@@ -7,6 +7,7 @@ class New extends React.Component {
         amount: 0,
         category: "",
         cashorbank: "",
+        type:"",
         phone: null,
     }
 
@@ -29,7 +30,7 @@ class New extends React.Component {
 
     submit = () => {
         const {
-            title, amount, category, cashorbank, phone
+            title, amount, category, cashorbank, phone, type
         } = this.state;
         const date = new Date()
         const trans = {
@@ -38,6 +39,7 @@ class New extends React.Component {
             amount,
             category,
             cashorbank,
+            type,
             user: parseInt(phone, 10),
         }
         createTransaction(trans, this.goTo("/home"))
@@ -53,6 +55,7 @@ class New extends React.Component {
                 <Input name="amount" type="number" state={state} fn={this.handleChange} />
                 <Input name="category" state={state} fn={this.handleChange} />
                 <Input name="cashorbank" label="Cash or bank" state={state} fn={this.handleChange} />
+                <Input name="type" label="Withdrawal or Deposit" state={state} fn={this.handleChange} />
                 <button onClick={this.submit}>Add</button>
             </div>
         )

@@ -45,11 +45,27 @@ export const fetchTransaction = (phone, callback) => {
 
 export const createTransaction = (transaction, fnSuccess) => {
     console.log(transaction)
-    const newUserRef = Database.ref("/transactions").push()
-    newUserRef.set({
+    const newTrans = Database.ref("/transactions").push()
+    newTrans.set({
         ...transaction,
     })
+    fetchUser(transaction.user.toString(), updateUser(transaction))
     fnSuccess()
+}
+
+export const updateUser = (transaction) => (user) => {
+    console.log("In update func: ");
+    console.log(transaction);
+    if (transaction.type=="withdrawal")
+        user.accounts[transaction.cashorbank]-=transaction.amount
+    if(transaction.type=="deposit"){
+        user.accounts[transaction.cashorbank]+=transaction.amount
+    }
+
+    const userKey = localStorage.getItem("student_wallet_user_key")
+    Database.ref().child(`/users/${userKey}`).update({
+        ...user
+    })
 }
 
 export const registerUser = (user, accounts, callback) => {
@@ -60,6 +76,7 @@ export const registerUser = (user, accounts, callback) => {
         // Only add a new user if the previous user doesn't exist
         if(snapshot.val()==null){
             const newUserRef = Database.ref("/users").push()
+            localStorage.setItem("student_wallet_user_key", newUserRef.key)
             newUserRef.set({
                 ...user,
                 accounts,
