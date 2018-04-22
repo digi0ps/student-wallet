@@ -43,17 +43,18 @@ class Home extends React.Component {
         const {currentUser, transactions} = this.state
         let cash, bank
         if(currentUser){
-            cash = currentUser.accounts.cash
-            bank = currentUser.accounts[Object.keys(currentUser.accounts)[1]]
+            cash = currentUser.accounts.cash.balance
+            bank = currentUser.accounts.bank
         }
         return (
             <div>
-                Welcome to student wallet, {currentUser && currentUser.name||"loading"}
+                Welcome to student wallet, {currentUser?currentUser.name:"loading"}
                 <br /> Your cash balance: {cash?cash:"loading balance"}
-                <br /> Your bank balance: {bank?bank.bank_bal:"loading balance"}
+                <br /> Your {bank?bank.name:""} bank balance: {bank?bank.balance:"loading balance"}
                 <div className="newTrans">
                 <Link to="/new">New Transaction</Link>
                 </div>
+                <br />
                 <div className="trans">
                     {
                         Object.keys(transactions).map((key, index) => (

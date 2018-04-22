@@ -32,6 +32,8 @@ class New extends React.Component {
         const {
             title, amount, category, cashorbank, phone, type
         } = this.state;
+        if(amount===0 || title==="" || type==="" || cashorbank==="")
+            return
         const date = new Date()
         const trans = {
             date,

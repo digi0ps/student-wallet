@@ -56,11 +56,14 @@ export const createTransaction = (transaction, fnSuccess) => {
 export const updateUser = (transaction) => (user) => {
     console.log("In update func: ");
     console.log(transaction);
-    if (transaction.type=="withdrawal")
-        user.accounts[transaction.cashorbank]-=transaction.amount
-    if(transaction.type=="deposit"){
-        user.accounts[transaction.cashorbank]+=transaction.amount
-    }
+    let money = parseInt(user.accounts[transaction.cashorbank].balance, 10)
+    let amount = parseInt(transaction.amount, 10)
+    if (transaction.type==="withdrawal")
+        money-=amount
+    if(transaction.type==="deposit")
+        money+=amount
+
+    user.accounts[transaction.cashorbank].balance = money
 
     const userKey = localStorage.getItem("student_wallet_user_key")
     Database.ref().child(`/users/${userKey}`).update({

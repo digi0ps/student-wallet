@@ -31,17 +31,18 @@ class Register extends React.Component {
             status,
             phone,
         }
-        const account = {
+        const accounts = {
             cash: {
                 balance: cash
+            },
+            bank: {
+                balance: bank_bal,
+                name: bank_name,
+                acc_no: bank_no
             }
         }
-        account[bank_name] = {
-            bank_no,
-            balance: bank_bal,
-        }
 
-        registerUser(user, account, (success) => {
+        registerUser(user, accounts, (success) => {
             this.setState({
                 success
             })
