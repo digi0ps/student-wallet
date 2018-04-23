@@ -6,8 +6,8 @@ class New extends React.Component {
         title: "",
         amount: 0,
         category: "",
-        cashorbank: "",
-        type:"",
+        cashorbank: "cash",
+        type:"withdrawal",
         phone: null,
     }
 
@@ -56,8 +56,20 @@ class New extends React.Component {
                 <Input name="title" state={state} fn={this.handleChange} />
                 <Input name="amount" type="number" state={state} fn={this.handleChange} />
                 <Input name="category" state={state} fn={this.handleChange} />
-                <Input name="cashorbank" label="Cash or bank" state={state} fn={this.handleChange} />
-                <Input name="type" label="Withdrawal or Deposit" state={state} fn={this.handleChange} />
+                <div>
+                    <label>Select source: </label>
+                    <select name="cashorbank" onChange={this.handleChange}>
+                      <option value="cash">Cash</option>
+                      <option value="bank">Bank</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Select type: </label>
+                    <select name="type" onChange={this.handleChange}>
+                      <option value="withdrawal">Withdrawal</option>
+                      <option value="deposit">Deposit</option>
+                    </select>
+                </div>
                 <button onClick={this.submit}>Add</button>
             </div>
         )
