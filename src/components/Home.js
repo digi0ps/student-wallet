@@ -44,26 +44,76 @@ class Home extends React.Component {
         let cash, bank
         if(currentUser){
             cash = currentUser.accounts.cash.balance
-            bank = currentUser.accounts.bank
+            bank = currentUser.accounts.bank.balance
         }
         return (
             <div>
-                Welcome to student wallet, {currentUser?currentUser.name:"loading"}
-                <br /> Your cash balance: {cash?cash:"loading balance"}
-                <br /> Your {bank?bank.name:""} bank balance: {bank?bank.balance:"loading balance"}
+                <p className="is-size-1 is-size-3-mobile has-text-info">Student Wallet</p>
+                <p className="is-size-4 is-size-6-mobile">Welcome Mr. {currentUser?currentUser.name:""}</p>
+                <nav className="level is-mobile">
+                  <div className="level-item has-text-centered">
+                    <div>
+                      <p className="heading">Transactions</p>
+                      <p className="title">{Object.keys(transactions).length || ""}</p>
+                    </div>
+                  </div>
+                  <div className="level-item has-text-centered">
+                    <div>
+                      <p className="heading">Cash</p>
+                      <p className="title">{cash || ""}</p>
+                    </div>
+                  </div>
+                  <div className="level-item has-text-centered">
+                    <div>
+                      <p className="heading">Bank</p>
+                      <p className="title">{bank || ""}</p>
+                    </div>
+                  </div>
+                </nav>
+
                 <div className="newTrans">
-                <Link to="/new">New Transaction</Link>
+                <Link to="/new" className="button is-success is-outlined" id="trans_button">
+                <span className="icon is-small">
+                  <i className="fas fa-plus"></i>
+                </span>
+                <span>Transaction</span>
+                </Link>
                 </div>
                 <br />
                 <div className="trans">
                     {
-                        Object.keys(transactions).map((key, index) => (
-                            <div className="trans" key={index}>
-                                Transaction id: {key}
+                        Object.keys(transactions).map((key, index) => {
+                            const transaction = transactions[key]
+                            let tagClasses = "tag is-absolute "
+                            if(transaction.cashorbank === "cash")
+                                tagClasses+= "is-success"
+                            else
+                                tagClasses+= "is-primary"
+                            return (
+                            <div className="trans box is-unselectable login-bg-is-white" key={index}>
+                              <article className="media">
+                                <div className="media-content">
+                                  <div className="content">
+                                    <p>
+                                        <strong>
+                                            <span className="is-size-4">{ transaction.title }</span>
+                                        </strong>
+                                        <br />
+                                      <span className="amount">
+                                      Rs. {transaction.amount}
+                                      </span>
+                                      <br />
+                                      <span className={tagClasses}>{ transaction.cashorbank }</span>    
+                                      <a className="channel">#{transaction.category}</a>
+                                    </p>
+                                  </div>
+                                </div>
+                              </article>
                             </div>
-                        ))
-                    }
-                </div>
+                        );
+                    })
+                }    
+            </div>
             </div>
         )
     }
