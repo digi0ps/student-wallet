@@ -40,6 +40,14 @@ body {
     text-align: center;
 }
 
+.is-center {
+    margin: 5px auto;
+    text-align: center;
+}
+
+.trans-header {
+    padding-left: .5rem;
+}
 @keyframes pulse {
     0% {
         opacity: 1;

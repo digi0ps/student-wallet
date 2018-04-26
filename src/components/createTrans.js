@@ -1,5 +1,6 @@
 import React from 'react'
 import {createTransaction} from '../firebase/Database'
+import {Input, Dropdown} from './form'
 
 class New extends React.Component {
     state = {
@@ -51,42 +52,46 @@ class New extends React.Component {
         const state = Object.assign({}, this.state)
         return(
             <div className="newTrans">
-                Enter the details for the new transaction.
+            <section className="hero">
+              <div className="hero-body trans-header">
+                <div className="container">
+                  <h1 className="title has-text-primary">
+                    New Transaction
+                  </h1>
+                  <h2 className="subtitle has-text-grey-light">
+                    Enter the transaction details here
+                  </h2>
+                </div>
+              </div>
+            </section>
+
                 <br />
                 <Input name="title" state={state} fn={this.handleChange} />
-                <Input name="amount" type="number" state={state} fn={this.handleChange} />
+                <Input name="amount" type="number" state={state} fn={this.handleChange} icon="money"/>
                 <Input name="category" state={state} fn={this.handleChange} />
-                <div>
-                    <label>Select source: </label>
-                    <select name="cashorbank" onChange={this.handleChange}>
-                      <option value="cash">Cash</option>
-                      <option value="bank">Bank</option>
-                    </select>
+
+                <Dropdown
+                    name="cashorbank"
+                    fn={this.handleChange}
+                    label="Select your source"
+                    options={['cash', 'bank']} />
+
+                <Dropdown
+                    name="type"
+                    fn={this.handleChange}
+                    label="Choose the type of transaction"
+                    options={['withdrawal', 'deposit']} />
+
+                <div className="field is-grouped is-grouped-centered">
+                  <p className="control">
+                    <a className="button is-success" onClick={this.submit}>
+                      Submit
+                    </a>
+                  </p>
                 </div>
-                <div>
-                    <label>Select type: </label>
-                    <select name="type" onChange={this.handleChange}>
-                      <option value="withdrawal">Withdrawal</option>
-                      <option value="deposit">Deposit</option>
-                    </select>
-                </div>
-                <button onClick={this.submit}>Add</button>
             </div>
         )
     }
-}
-
-
-const Input = ({name, state, fn, type, label}) => {
-    label = label?label:name
-    // label[0] = label[0].toUpperCase()
-    type = type?type:"text"
-    return (
-        <div className="controlInput">
-            <label>{label}: </label>
-            <input type={type} name={name} value={state[name]} onChange={fn} />
-        </div>
-    )
 }
 
 export default New
