@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background: #fefefe;
+  background: #fdfdfd;
 }
 
 #trans_button {
@@ -15,4 +15,39 @@ body {
 
 .container {
     /* margin: 20px; */
+}
+
+.approuter {
+    margin: 20px;
+}
+
+#headerkinda {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.mybox {
+    padding: 0.85rem;
+}
+
+.loading {
+    filter: blur(5px);
+    font-size: 12px;
+    animation: pulse .5s infinite;
+}
+
+.loadingButton {
+    text-align: center;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 1;
+    }
 }

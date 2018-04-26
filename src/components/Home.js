@@ -46,27 +46,38 @@ class Home extends React.Component {
             cash = currentUser.accounts.cash.balance
             bank = currentUser.accounts.bank.balance
         }
+        const loadingPulse = (
+            <span className="loading">
+            ø
+            </span>
+        )
+
+        const loadingButton = (
+            <div className="loadingButton"><a className="button is-loading">Loading</a></div>
+        )
         return (
             <div>
+                <div id="headerkinda">
                 <p className="is-size-1 is-size-3-mobile has-text-info">Student Wallet</p>
-                <p className="is-size-4 is-size-6-mobile">Welcome Mr. {currentUser?currentUser.name:""}</p>
+                <p className="is-size-4 is-size-6-mobile has-text-medium">Welcome Mr. {currentUser?currentUser.name:""}</p>
+                </div>
                 <nav className="level is-mobile">
                   <div className="level-item has-text-centered">
                     <div>
                       <p className="heading">Transactions</p>
-                      <p className="title">{Object.keys(transactions).length || ""}</p>
+                      <p className="title">{Object.keys(transactions).length || loadingPulse}</p>
                     </div>
                   </div>
                   <div className="level-item has-text-centered">
                     <div>
                       <p className="heading">Cash</p>
-                      <p className="title">{cash || ""}</p>
+                      <p className="title">{cash || loadingPulse}</p>
                     </div>
                   </div>
                   <div className="level-item has-text-centered">
                     <div>
                       <p className="heading">Bank</p>
-                      <p className="title">{bank || ""}</p>
+                      <p className="title">{bank || loadingPulse}</p>
                     </div>
                   </div>
                 </nav>
@@ -82,6 +93,9 @@ class Home extends React.Component {
                 <br />
                 <div className="trans">
                     {
+                        Object.keys(transactions).length?null:loadingButton
+                    }
+                    {
                         Object.keys(transactions).map((key, index) => {
                             const transaction = transactions[key]
                             let tagClasses = "tag is-absolute "
@@ -90,7 +104,7 @@ class Home extends React.Component {
                             else
                                 tagClasses+= "is-primary"
                             return (
-                            <div className="trans box is-unselectable login-bg-is-white" key={index}>
+                            <div className="trans box is-unselectable mybox" key={index}>
                               <article className="media">
                                 <div className="media-content">
                                   <div className="content">
