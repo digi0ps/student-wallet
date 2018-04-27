@@ -8,21 +8,23 @@ export const Input = ({name, state, fn, type, label, icon}) => {
     type = type?type:"text"
 
     // Add icon if icon parameter is passed
-    console.log(icon)
-    let spanIcon
-    if (icon)
+    let spanIcon,
+        classes = "control "
+    if (icon){
+        classes+="has-icons-left"
         spanIcon = (
             <span className="icon is-small is-left">
                   <i className={`fas fa-${icon}`}></i>
             </span>
         )
+    }
     else
         spanIcon = ""
 
     return (
         <div className="field">
             <label className="label">{label}</label>
-            <div className="control has-icons-left">
+            <div className={classes}>
                 <input 
                     className="input"
                     type={type}
@@ -53,6 +55,19 @@ export const Dropdown = ({name, fn, label, options}) => {
               </select>
             </div>
           </div>
+        </div>
+    )
+}
+
+export const SuccessButton = ({value, fn}) => {
+    value = _capitalize(value)
+    return (
+        <div className="field is-grouped is-grouped-centered">
+          <p className="control">
+            <a className="button is-success" onClick={fn}>
+              {value}
+            </a>
+          </p>
         </div>
     )
 }

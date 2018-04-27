@@ -1,6 +1,6 @@
 import React from 'react'
 import {createTransaction} from '../firebase/Database'
-import {Input, Dropdown} from './form'
+import {Input, Dropdown, SuccessButton} from './Form'
 
 class New extends React.Component {
     state = {
@@ -53,7 +53,7 @@ class New extends React.Component {
         return(
             <div className="newTrans">
             <section className="hero">
-              <div className="hero-body trans-header">
+              <div className="hero-body custom-header-body">
                 <div className="container">
                   <h1 className="title has-text-primary">
                     New Transaction
@@ -82,13 +82,7 @@ class New extends React.Component {
                     label="Choose the type of transaction"
                     options={['withdrawal', 'deposit']} />
 
-                <div className="field is-grouped is-grouped-centered">
-                  <p className="control">
-                    <a className="button is-success" onClick={this.submit}>
-                      Submit
-                    </a>
-                  </p>
-                </div>
+                <SuccessButton fn={this.submit} value="Create" />
             </div>
         )
     }

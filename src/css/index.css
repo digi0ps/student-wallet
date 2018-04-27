@@ -3,6 +3,7 @@ body {
   padding: 0;
   font-family: sans-serif;
   background: #fdfdfd;
+  height: 100vh;
 }
 
 #trans_button {
@@ -45,9 +46,11 @@ body {
     text-align: center;
 }
 
-.trans-header {
-    padding-left: .5rem;
+.custom-header-body {
+    padding: 1.5rem .3rem;
+
 }
+
 @keyframes pulse {
     0% {
         opacity: 1;

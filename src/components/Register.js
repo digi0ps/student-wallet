@@ -1,14 +1,15 @@
 import React from 'react'
 import {Redirect} from 'react-router-dom'
 import {registerUser} from '../firebase/Database'
+import {Input, Dropdown, SuccessButton} from './Form'
 
 class Register extends React.Component {
     state = {
         name: "",
         age: 18,
-        gender: "",
+        gender: "male",
         phone: "",
-        status: "",
+        status: "student",
         cash: 0,
         bank_name: "",
         bank_no: "",
@@ -50,9 +51,7 @@ class Register extends React.Component {
     }
 
     render() {
-        const {
-            name, age, gender, phone, status, cash, bank_name, bank_no, bank_bal
-        } = this.state
+        const state = Object.assign({}, this.state)
 
         const errorMsg = (
             <div className="error">
@@ -61,51 +60,37 @@ class Register extends React.Component {
         )
         return (
             <div>
-            Hey just need a few details about you and we are all set to 
-            roll.
+            <section className="hero">
+              <div className="hero-body custom-header-body">
+                <div className="container">
+                  <h1 className="title has-text-primary">
+                    Register
+                  </h1>
+                  <h2 className="subtitle has-text-grey-light">
+                    Just need a few details and we are all set to roll.
+                  </h2>
+                </div>
+              </div>
+            </section>
+
             {this.state.success===true?<Redirect to="/verify" />:''}
             {this.state.success===false?errorMsg:''}
-            <div>
-                <label>Name: </label>
-                <input type="text" name="name" value={name} onChange={this.handleChange} />
-            </div>
-            <div>
-                <label>Phone: </label>
-                <input type="text" name="phone" value={phone} onChange={this.handleChange} />
-            </div>
-            <div>
-                <label>Gender: </label>
-                <input type="text" name="gender" value={gender} onChange={this.handleChange} />
-            </div>
-            <div>
-                <label>Age: </label>
-                <input type="number" name="age" value={age} onChange={this.handleChange} />
-            </div>
-            <div>
-                <label>Financial Status: </label>
-                <input type="text" name="status" value={status} onChange={this.handleChange} />
-            </div>
 
-            <div>You might have some cash in hand. Let's put that in here. </div>
-            <div>
-                <label>Cash: </label>
-                <input type="number" name="cash" value={cash} onChange={this.handleChange} />
-            </div>
+            <Input name="name" state={state} fn={this.handleChange} />
+            <Input name="phone" state={state} fn={this.handleChange} />
+            <Dropdown name="gender" options={['male', 'female']} fn={this.handleChange} />
+            <Input name="age" state={state} type="number" fn={this.handleChange} />
+            <Dropdown name="status" options={['student', 'employed']} fn={this.handleChange} />
 
-            <div>Now enter your bank account and it's details</div>
-            <div>
-                <label>Bank Name: </label>
-                <input type="text" name="bank_name" value={bank_name} onChange={this.handleChange} />
-            </div>
-            <div>
-                <label>Bank Account Number: </label>
-                <input type="text" name="bank_no" value={bank_no} onChange={this.handleChange} />
-            </div>
-            <div>
-                <label>Bank Balamce: </label>
-                <input type="text" name="bank_bal" value={bank_bal} onChange={this.handleChange} />
-            </div>
-            <button onClick={this.submit}>Let's go</button>
+            <p className="subtitle has-text-grey-light">You might have some cash in hand. Let's put that in here. </p>
+            <Input name="cash" icon="money" state={state} type="number" fn={this.handleChange} />
+
+            <p className="subtitle has-text-grey-light">Now enter your bank account and it's details</p>
+            <Input name="bank_name" label="Your bank's name" state={state} fn={this.handleChange} />
+            <Input name="bank_no" label="Your account number" state={state} fn={this.handleChange} />
+            <Input name="bank_bal" type="number" icon="money" label="Your bank balance" state={state} fn={this.handleChange} />
+
+            <SuccessButton fn={this.submit} value="Register" />
             </div>
         )
     }

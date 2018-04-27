@@ -58,7 +58,7 @@ class Home extends React.Component {
         return (
             <div>
                 <div id="headerkinda">
-                <p className="is-size-1 is-size-3-mobile has-text-info">Student Wallet</p>
+                <p className="is-size-1 is-size-3-mobile has-text-primary">Student Wallet</p>
                 <p className="is-size-4 is-size-6-mobile has-text-medium">Welcome Mr. {currentUser?currentUser.name:""}</p>
                 </div>
                 <nav className="level is-mobile">
