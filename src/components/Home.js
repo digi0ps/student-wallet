@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import * as db from '../firebase/Database'
-
+import Transaction from './Transaction'
 import firebase from '../firebase'
 
 class Home extends React.Component {
@@ -11,7 +11,11 @@ class Home extends React.Component {
         phone: null,
         currentUser: null,
         transactions: {},
+        loading: true,
+        type: null,
     }
+
+    types = [null, 'Withdrawal', 'Deposit']
 
     componentDidMount = async () => {
         firebase.auth().onAuthStateChanged((user) => {
@@ -32,15 +36,58 @@ class Home extends React.Component {
 
         db.fetchTransaction(phone, (transactions) => this.setState({
             transactions,
+            loading: false,
         }))
-
         this.setState({
-            phone,
+            phone
         })
     }
 
+    filter = (type=null) => {
+        const trans = Object.assign({}, this.state.transactions)
+        if (type===null)
+            return Object.keys(trans)
+        const filtered = Object.keys(trans).filter(key => trans[key].type===type?true:false)
+        return filtered
+    }
+
+    renderTrans = (transKeyArr) => {
+        transKeyArr = transKeyArr.reverse()
+        const arr = transKeyArr.map((key, index) => {
+            const transaction = this.state.transactions[key]
+            let tagClasses = "tag is-absolute "
+            if(transaction.cashorbank === "cash")
+                tagClasses+= "is-success"
+            else
+                tagClasses+= "is-primary"
+            return (<Transaction key={index} id={key} tagclass={tagClasses} transaction={transaction} />);
+        })
+        return arr
+    }
+
+    changeFilter = (type) => () => {
+        if (this.state.loading)
+            return
+        this.setState({
+            type,
+        })
+    }
+
+    renderTabs = () => {
+        const arr = this.types.map((type, index) => {
+            const label = type===null?'All':type
+            type = type===null?null:type.toLowerCase()
+            const isactive = this.state.type===type?'is-active':''
+            return (
+                <li key={index} className={isactive}><a onClick={this.changeFilter(type)}>{label}</a></li>
+            )
+        })
+        return arr
+    }
+
     render() {
-        const {currentUser, transactions} = this.state
+        window.filter = this.filter
+        const {currentUser, transactions, type} = this.state
         let cash, bank
         if(currentUser){
             cash = currentUser.accounts.cash.balance
@@ -55,11 +102,11 @@ class Home extends React.Component {
         const loadingButton = (
             <div className="loadingButton"><a className="button is-loading">Loading</a></div>
         )
+
         return (
             <div>
                 <div id="headerkinda">
-                <p className="is-size-1 is-size-3-mobile has-text-primary">Student Wallet</p>
-                <p className="is-size-4 is-size-6-mobile has-text-medium">Welcome Mr. {currentUser?currentUser.name:""}</p>
+                <p className="is-size-1 is-size-3-mobile has-text-primary">{currentUser?currentUser.name+"'s":"Student"} Wallet</p>
                 </div>
                 <nav className="level is-mobile">
                   <div className="level-item has-text-centered">
@@ -91,42 +138,18 @@ class Home extends React.Component {
                 </Link>
                 </div>
                 <br />
+
+                <div className="tabs is-fullwidth">
+                  <ul>
+                    { this.renderTabs() }
+                  </ul>
+                </div>
+
+                { this.state.loading?loadingButton:null }
+
                 <div className="trans">
-                    {
-                        Object.keys(transactions).length?null:loadingButton
-                    }
-                    {
-                        Object.keys(transactions).map((key, index) => {
-                            const transaction = transactions[key]
-                            let tagClasses = "tag is-absolute "
-                            if(transaction.cashorbank === "cash")
-                                tagClasses+= "is-success"
-                            else
-                                tagClasses+= "is-primary"
-                            return (
-                            <div className="trans box is-unselectable mybox" key={index}>
-                              <article className="media">
-                                <div className="media-content">
-                                  <div className="content">
-                                    <p>
-                                        <strong>
-                                            <span className="is-size-4">{ transaction.title }</span>
-                                        </strong>
-                                        <br />
-                                      <span className="amount">
-                                      Rs. {transaction.amount}
-                                      </span>
-                                      <br />
-                                      <span className={tagClasses}>{ transaction.cashorbank }</span>    
-                                      <a className="channel">#{transaction.category}</a>
-                                    </p>
-                                  </div>
-                                </div>
-                              </article>
-                            </div>
-                        );
-                    })
-                }    
+
+                    { this.renderTrans(this.filter(type)) }    
             </div>
             </div>
         )

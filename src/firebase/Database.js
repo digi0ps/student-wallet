@@ -22,7 +22,6 @@ export const fetchUser = (phone, callback) => {
     Database.ref("/users").orderByChild("phone").equalTo(phone).on("child_added", (data) => {
         // User does not exist
         const user = data.val()
-        console.log(user)
         if(user==null){
             return null
         }
@@ -35,7 +34,6 @@ export const fetchTransaction = (phone, callback) => {
     Database.ref("/transactions").orderByChild("user").equalTo(parseInt(phone, 10)).on("value", (snapshot) => {
         // trans does not exist
         const trans = snapshot.val()
-        console.log(trans)
         if(trans==null){
             return null
         }
@@ -54,8 +52,6 @@ export const createTransaction = (transaction, fnSuccess) => {
 }
 
 export const updateUser = (transaction) => (user) => {
-    console.log("In update func: ");
-    console.log(transaction);
     let money = parseInt(user.accounts[transaction.cashorbank].balance, 10)
     let amount = parseInt(transaction.amount, 10)
     if (transaction.type==="withdrawal")
