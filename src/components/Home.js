@@ -19,8 +19,8 @@ class Home extends React.Component {
     types = [null, 'Withdrawal', 'Deposit']
 
     componentDidMount = async () => {
-        if(!isLoggedIn)
-            this.props.push('/verify')
+        if(!isLoggedIn())
+            this.props.history.push('/verify')
         firebase.auth().onAuthStateChanged((user) => {
           if (user) {
             const phone = user.phoneNumber.substr(3)
@@ -55,6 +55,12 @@ class Home extends React.Component {
     }
 
     renderTrans = (transKeyArr) => {
+        const { transactions } = this.state
+        if (!Object.keys(transactions).length)
+            return (
+                <div className="has-text-centered">No transactions done. :(</div>
+            )
+
         transKeyArr = transKeyArr.reverse()
         const arr = transKeyArr.map((key, index) => {
             const transaction = this.state.transactions[key]
@@ -90,7 +96,7 @@ class Home extends React.Component {
 
     render() {
         window.filter = this.filter
-        const {currentUser, transactions, type} = this.state
+        const {currentUser, transactions, type, loading} = this.state
         let cash, bank
         if(currentUser){
             cash = currentUser.accounts.cash.balance
@@ -115,7 +121,7 @@ class Home extends React.Component {
                   <div className="level-item has-text-centered">
                     <div>
                       <p className="heading">Transactions</p>
-                      <p className="title">{Object.keys(transactions).length || loadingPulse}</p>
+                      <p className="title">{loading?loadingPulse:Object.keys(transactions).length}</p>
                     </div>
                   </div>
                   <div className="level-item has-text-centered">
@@ -152,7 +158,7 @@ class Home extends React.Component {
 
                 <div className="trans">
 
-                    { this.renderTrans(this.filter(type)) }    
+                    { loading?null:this.renderTrans(this.filter(type)) }    
             </div>
             </div>
         )

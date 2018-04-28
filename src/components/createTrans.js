@@ -67,7 +67,7 @@ class New extends React.Component {
 
                 <br />
                 <Input name="title" state={state} fn={this.handleChange} />
-                <Input name="amount" type="number" state={state} fn={this.handleChange} icon="money"/>
+                <Input name="amount" type="number" state={state} fn={this.handleChange} icon="rupee-sign"/>
                 <Input name="category" state={state} fn={this.handleChange} />
 
                 <Dropdown

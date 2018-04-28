@@ -73,7 +73,7 @@ class Register extends React.Component {
               </div>
             </section>
 
-            {this.state.success===true?<Redirect to="/verify" />:''}
+            {this.state.success===true?<Redirect to="/" />:''}
             {this.state.success===false?errorMsg:''}
 
             <Input name="name" state={state} fn={this.handleChange} />
@@ -83,12 +83,12 @@ class Register extends React.Component {
             <Dropdown name="status" options={['student', 'employed']} fn={this.handleChange} />
 
             <p className="subtitle has-text-grey-light">You might have some cash in hand. Let's put that in here. </p>
-            <Input name="cash" icon="money" state={state} type="number" fn={this.handleChange} />
+            <Input name="cash" icon="rupee-sign" state={state} type="number" fn={this.handleChange} />
 
             <p className="subtitle has-text-grey-light">Now enter your bank account and it's details</p>
             <Input name="bank_name" label="Your bank's name" state={state} fn={this.handleChange} />
             <Input name="bank_no" label="Your account number" state={state} fn={this.handleChange} />
-            <Input name="bank_bal" type="number" icon="money" label="Your bank balance" state={state} fn={this.handleChange} />
+            <Input name="bank_bal" type="number" icon="rupee-sign" label="Your bank balance" state={state} fn={this.handleChange} />
 
             <SuccessButton fn={this.submit} value="Register" />
             </div>

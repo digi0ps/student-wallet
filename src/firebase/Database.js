@@ -1,4 +1,4 @@
-import firebase from './'
+import firebase from './index'
 import {login} from './auth_ui'
 
 const Database = firebase.database()
@@ -33,9 +33,10 @@ window.db = Database
 export const fetchTransaction = (phone, callback) => {
     Database.ref("/transactions").orderByChild("user").equalTo(parseInt(phone, 10)).on("value", (snapshot) => {
         // trans does not exist
-        const trans = snapshot.val()
-        if(trans==null){
-            return null
+        let trans = snapshot.val()
+        console.log(trans)
+        if(trans===null){
+            trans = {}
         }
         callback(trans)
     })  
