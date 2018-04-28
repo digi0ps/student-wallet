@@ -48,7 +48,19 @@ body {
 
 .custom-header-body {
     padding: 1.5rem .3rem;
+}
 
+input:active, input:focus, select:focus, select:active {
+    border-color: #59CEB3 !important;
+    box-shadow: none !important;
+}
+
+.select:not(.is-multiple):not(.is-loading)::after {
+    border-color: #59CEB3 !important;
+}
+
+#verifying {
+    margin-bottom: 20px;
 }
 
 @keyframes pulse {

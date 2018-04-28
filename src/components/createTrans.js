@@ -45,7 +45,7 @@ class New extends React.Component {
             type,
             user: parseInt(phone, 10),
         }
-        createTransaction(trans, this.goTo("/home"))
+        createTransaction(trans, this.goTo("/"))
     }
 
     render(){

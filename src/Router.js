@@ -1,7 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch} from 'react-router-dom'
 
-import App from './components/App'
 import Home from './components/Home'
 import Welcome from './components/Welcome'
 import Register from './components/Register'
@@ -14,8 +13,7 @@ class Router extends React.Component {
             <BrowserRouter>
                 <div className="approuter">
                 <Switch>
-                    <Route path="/" exact component={App} />
-                    <Route path="/home" component={Home} />
+                    <Route path="/" exact component={Home} />
                     <Route path="/welcome" component={Welcome} />
                     <Route path="/register" component={Register} />
                     <Route path="/verify" component={Verify} />

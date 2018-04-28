@@ -2,12 +2,12 @@ import * as firebase from 'firebase'
 import * as firebaseui from 'firebaseui'
 
 const uiConfig = {
-  signInSuccessUrl: '/home',
+  signInSuccessUrl: '/',
   signInOptions: [
     {
       provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
       defaultCountry: 'IN', // Set default country to the United 
-      defaultNationalNumber: '9840543050',
+      defaultNationalNumber: '',
     }
   ],
   // Terms of service url.

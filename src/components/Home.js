@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import * as db from '../firebase/Database'
 import Transaction from './Transaction'
 import firebase from '../firebase'
+import {isLoggedIn} from '../firebase/auth_ui'
 
 class Home extends React.Component {
     state = {
@@ -18,6 +19,8 @@ class Home extends React.Component {
     types = [null, 'Withdrawal', 'Deposit']
 
     componentDidMount = async () => {
+        if(!isLoggedIn)
+            this.props.push('/verify')
         firebase.auth().onAuthStateChanged((user) => {
           if (user) {
             const phone = user.phoneNumber.substr(3)
