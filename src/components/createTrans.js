@@ -1,15 +1,40 @@
 import React from 'react'
-import {createTransaction} from '../firebase/Database'
+import {createTransaction, updateTransaction} from '../firebase/Database'
 import {Input, Dropdown, SuccessButton} from './Form'
 
 class New extends React.Component {
-    state = {
-        title: "",
-        amount: 0,
-        category: "",
-        cashorbank: "cash",
-        type:"withdrawal",
-        phone: null,
+
+    constructor(props) {
+        super(props)
+        const t = this.props.location.transaction
+        if(t){
+            let sourceOpts = t.cashorbank==="cash"?['cash', 'bank']:['bank', 'cash'];
+
+            let typeOpts = t.type==="deposit"?['deposit', 'withdrawal']:['withdrawal', 'deposit'];
+
+            this.state = {
+                title: t.title,
+                amount: t.amount,
+                category: t.category,
+                cashorbank: t.cashorbank,
+                type: t.type,
+                phone: null,
+                sourceOpts,
+                typeOpts,
+            }
+        }
+        else {
+            this.state = {
+                title: "",
+                amount: 0,
+                category: "",
+                cashorbank: "cash",
+                type:"withdrawal",
+                phone: null,
+                sourceOpts: ['cash', 'bank'],
+                typeOpts: ['withdrawal', 'deposit'],
+            }
+        }
     }
 
     componentDidMount(){
@@ -45,7 +70,11 @@ class New extends React.Component {
             type,
             user: parseInt(phone, 10),
         }
-        createTransaction(trans, this.goTo("/"))
+        const {transaction, transaction_key} = this.props.location
+        if(transaction_key)
+            updateTransaction(transaction, trans, transaction_key, this.goTo("/"))
+        else
+            createTransaction(trans, this.goTo("/"))
     }
 
     render(){
@@ -74,13 +103,13 @@ class New extends React.Component {
                     name="cashorbank"
                     fn={this.handleChange}
                     label="Select your source"
-                    options={['cash', 'bank']} />
+                    options={state.sourceOpts} />
 
                 <Dropdown
                     name="type"
                     fn={this.handleChange}
                     label="Choose the type of transaction"
-                    options={['withdrawal', 'deposit']} />
+                    options={state.typeOpts} />
 
                 <SuccessButton fn={this.submit} value="Create" />
             </div>

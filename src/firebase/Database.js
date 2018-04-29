@@ -34,7 +34,6 @@ export const fetchTransaction = (phone, callback) => {
     Database.ref("/transactions").orderByChild("user").equalTo(parseInt(phone, 10)).on("value", (snapshot) => {
         // trans does not exist
         let trans = snapshot.val()
-        console.log(trans)
         if(trans===null){
             trans = {}
         }
@@ -43,12 +42,55 @@ export const fetchTransaction = (phone, callback) => {
 }
 
 export const createTransaction = (transaction, fnSuccess) => {
-    console.log(transaction)
     const newTrans = Database.ref("/transactions").push()
     newTrans.set({
         ...transaction,
     })
     fetchUser(transaction.user.toString(), updateUser(transaction))
+    fnSuccess()
+}
+
+export const updateTransaction = (oldtransaction, transaction, key, fnSuccess) => {
+    Database.ref().child(`/transactions/${key}`).update({
+        ...transaction,
+    })
+
+    // The updating balance process
+    if(oldtransaction.cashorbank===transaction.cashorbank && oldtransaction.amount!==transaction.amount){
+        console.log("Updating amount");
+        const trans = {
+            cashorbank: transaction.cashorbank,
+            amount: (transaction.amount - oldtransaction.amount),
+            type: transaction.type
+        }
+        fetchUser(transaction.user.toString(), updateUser(trans))
+    }
+    else if(oldtransaction.cashorbank!==transaction.cashorbank){
+        console.log("Updating bank and amount")
+        const trans1 = {
+            cashorbank: oldtransaction.cashorbank,
+            amount: -(oldtransaction.amount),
+            type: transaction.type
+        }
+        fetchUser(transaction.user.toString(), updateUser(trans1))
+
+        const trans2 = {
+            cashorbank: transaction.cashorbank,
+            amount: transaction.amount,
+            type: transaction.type
+        }
+        fetchUser(transaction.user.toString(), updateUser(trans2))
+    }
+    else if(oldtransaction.type!==transaction.type){
+        console.log("Updating type")
+        const trans = {
+            cashorbank: transaction.cashorbank,
+            amount: 2*transaction.amount,
+            type: transaction.type,
+        }
+        fetchUser(transaction.user.toString(), updateUser(trans))
+    }
+
     fnSuccess()
 }
 

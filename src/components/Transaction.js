@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 const Transaction = ({index, tagclass, id, transaction}) => (
     <div className="trans box is-unselectable mybox" key={index}>
@@ -7,7 +8,13 @@ const Transaction = ({index, tagclass, id, transaction}) => (
           <div className="content">
             <p>
                 <strong>
-                    <span className="is-size-4">{ transaction.title }</span>
+                    <Link to={{
+                      pathname: "/new",
+                      transaction,
+                      transaction_key: id,
+                    }}>
+                    <span className="is-size-4 has-text-black">{ transaction.title }</span>
+                    </Link>
                 </strong>
                 <br />
               <span className="amount">
