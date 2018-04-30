@@ -56,7 +56,7 @@ export const updateTransaction = (oldtransaction, transaction, key, fnSuccess) =
     })
 
     // The updating balance process
-    if(oldtransaction.cashorbank===transaction.cashorbank && oldtransaction.amount!==transaction.amount){
+    if(oldtransaction.cashorbank===transaction.cashorbank && oldtransaction.amount!==transaction.amountx){
         console.log("Updating amount");
         const trans = {
             cashorbank: transaction.cashorbank,

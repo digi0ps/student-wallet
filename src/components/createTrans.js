@@ -62,7 +62,7 @@ class New extends React.Component {
             return
         const date = new Date()
         const trans = {
-            date,
+            date: date.getTime(),
             title,
             amount,
             category,
@@ -70,6 +70,7 @@ class New extends React.Component {
             type,
             user: parseInt(phone, 10),
         }
+        console.log(trans)
         const {transaction, transaction_key} = this.props.location
         if(transaction_key)
             updateTransaction(transaction, trans, transaction_key, this.goTo("/"))
