@@ -94,8 +94,14 @@ export const updateTransaction = (oldtransaction, transaction, key, fnSuccess) =
     fnSuccess()
 }
 
-export const deleteTransaction = (key, fnSuccess) => {
+export const deleteTransaction = (key, transaction, fnSuccess) => {
     Database.ref().child(`/transactions/${key}`).remove()
+    const trans = {
+        cashorbank: transaction.cashorbank,
+        amount: -(transaction.amount),
+        type: transaction.type,
+    }
+    fetchUser(transaction.user.toString(), updateUser(trans))
     fnSuccess()
 }
 

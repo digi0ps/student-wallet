@@ -81,7 +81,7 @@ class New extends React.Component {
         }
     }
 
-    delete = () => deleteTransaction(this.props.location.transaction_key, this.goTo('/'))
+    delete = () => deleteTransaction(this.props.location.transaction_key, this.props.location.transaction, this.goTo('/'))
 
     render(){
         const state = Object.assign({}, this.state)
