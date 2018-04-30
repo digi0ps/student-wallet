@@ -1,6 +1,6 @@
 import React from 'react'
-import {createTransaction, updateTransaction} from '../firebase/Database'
-import {Input, Dropdown, SuccessButton} from './Form'
+import {createTransaction, updateTransaction, deleteTransaction} from '../firebase/Database'
+import {Input, Dropdown, Button} from './Form'
 
 class New extends React.Component {
 
@@ -21,6 +21,7 @@ class New extends React.Component {
                 phone: null,
                 sourceOpts,
                 typeOpts,
+                editing: true,
             }
         }
         else {
@@ -33,6 +34,7 @@ class New extends React.Component {
                 phone: null,
                 sourceOpts: ['cash', 'bank'],
                 typeOpts: ['withdrawal', 'deposit'],
+                editing: false
             }
         }
     }
@@ -60,9 +62,7 @@ class New extends React.Component {
         } = this.state;
         if(amount===0 || title==="" || type==="" || cashorbank==="")
             return
-        const date = new Date()
         const trans = {
-            date: date.getTime(),
             title,
             amount,
             category,
@@ -70,13 +70,18 @@ class New extends React.Component {
             type,
             user: parseInt(phone, 10),
         }
-        console.log(trans)
         const {transaction, transaction_key} = this.props.location
-        if(transaction_key)
+        if(transaction_key){
             updateTransaction(transaction, trans, transaction_key, this.goTo("/"))
-        else
+        }
+        else{
+            const date = new Date().getTime()
+            trans.date = date
             createTransaction(trans, this.goTo("/"))
+        }
     }
+
+    delete = () => deleteTransaction(this.props.location.transaction_key, this.goTo('/'))
 
     render(){
         const state = Object.assign({}, this.state)
@@ -111,8 +116,17 @@ class New extends React.Component {
                     fn={this.handleChange}
                     label="Choose the type of transaction"
                     options={state.typeOpts} />
+                {
+                    state.editing
+                    ?(
+                        <div>
+                        <Button color="warning" fn={this.submit} value="Modify" />
+                        <Button color="danger" fn={this.delete} value="Delete" />
+                        </div>
+                    )
+                    :<Button color="success" fn={this.submit} value="Create" />
 
-                <SuccessButton fn={this.submit} value="Create" />
+                }
             </div>
         )
     }

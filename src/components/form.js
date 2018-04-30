@@ -59,12 +59,12 @@ export const Dropdown = ({name, fn, label, options}) => {
     )
 }
 
-export const SuccessButton = ({value, fn}) => {
+export const Button = ({value, color, fn}) => {
     value = _capitalize(value)
     return (
         <div className="field is-grouped is-grouped-centered">
           <p className="control">
-            <a className="button is-success" onClick={fn}>
+            <a className={"button is-"+color} onClick={fn}>
               {value}
             </a>
           </p>

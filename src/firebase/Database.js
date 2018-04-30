@@ -94,6 +94,11 @@ export const updateTransaction = (oldtransaction, transaction, key, fnSuccess) =
     fnSuccess()
 }
 
+export const deleteTransaction = (key, fnSuccess) => {
+    Database.ref().child(`/transactions/${key}`).remove()
+    fnSuccess()
+}
+
 export const updateUser = (transaction) => (user) => {
     let money = parseInt(user.accounts[transaction.cashorbank].balance, 10)
     let amount = parseInt(transaction.amount, 10)

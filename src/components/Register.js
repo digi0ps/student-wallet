@@ -1,7 +1,7 @@
 import React from 'react'
 import {Redirect} from 'react-router-dom'
 import {registerUser} from '../firebase/Database'
-import {Input, Dropdown, SuccessButton} from './Form'
+import {Input, Dropdown, Button} from './Form'
 
 class Register extends React.Component {
     state = {
@@ -90,7 +90,7 @@ class Register extends React.Component {
             <Input name="bank_no" label="Your account number" state={state} fn={this.handleChange} />
             <Input name="bank_bal" type="number" icon="rupee-sign" label="Your bank balance" state={state} fn={this.handleChange} />
 
-            <SuccessButton fn={this.submit} value="Register" />
+            <Button color="success" fn={this.submit} value="Register" />
             </div>
         )
     }
