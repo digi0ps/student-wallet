@@ -2,6 +2,8 @@ import React from 'react'
 import {Redirect} from 'react-router-dom'
 import {registerUser} from '../firebase/Database'
 import {Input, Dropdown, Button} from './Form'
+import '../../public/static/bulma.css'
+import '../css/index.css'
 
 class Register extends React.Component {
     state = {
